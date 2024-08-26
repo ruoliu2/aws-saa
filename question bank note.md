@@ -941,19 +941,95 @@ passover not related to read replica
 
 
 
+###### 260. on premise AD -> join AD to file sys 
 
 
 
+###### 261. device type -> http header -> not NLB
 
 
 
+###### 262. peer connection + allow inbound rule from cluster security group (not peer connection security group)
 
 
 
+###### 263. min ops overhead -> ECS + fargate (EKS and EC2 need additional handling)
 
 
 
+###### 264. unhealthy ec2 -> route53 - ALB (heath check) - ec2
 
+
+
+###### 265. cloudfront use https to deliver using ALB as origin, ALB public, ec2 private
+
+
+
+###### 267. kinesis data stream + lambda kinesis data analitics (too much overhead); instead use kinesis data firehouse to tranform data and store in parquet in s3
+
+
+
+###### 270. encrypt data before and after hit s3 -> client side encryption
+
+
+
+###### 271. DR, passover immediate, DR scale up -> aurora global warm standby
+
+pilot light needs manual turn on
+
+warm standby auto switch
+
+multi AZ is not DR
+
+
+
+###### 272. DR tolerate 4h downtime -> AMI ec2 second region + cloudformation
+
+
+
+###### 275. ec2 scaling (run slow), low cost -> lower CPU usage threshold (scale up faster) + decrease cooldown period (scale down faster)
+
+
+
+###### 279. dynamo backup evey month -> aws backup, no on demand! dynamo backup doenst support s3 glacier
+
+
+
+###### 281. recovery point objective (RPO) less than 1 second -> multi AZ RDS
+
+
+
+###### 298. subnet cant across AZ (single AZ)
+
+
+
+###### 305. SMB -> storage GW or FSx
+
+
+
+###### 306. min data transfer charges -> single AZ single region (low latency / bandwidth)
+
+
+
+###### 308. 90 days RDS on demand -> consolidated billing account + RDS Ide DB instance
+
+RDS reserved too risky since only have 90 days data (need commit to 1 - 3 year term)
+
+
+
+###### 314. mysql db aws, without select particular instance type -> aurora serverless 
+
+
+
+###### 347. change family, save compute -> compute saving 
+
+flexible -> compute saving
+
+commit to one family -> ec2 instance saving 
+
+
+
+###### 349. share DB w company -> snapshot,  add company to KMS key policy, share
 
 
 
