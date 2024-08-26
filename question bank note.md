@@ -96,10 +96,6 @@ each pc  install utility to access to s3, life cycle to transfer to glacier deep
 
 
 
-###### 10. ordering of processing order -> SQS FIFO queue
-
-
-
 ###### 11. store credential, least overhead -> AWS Secrets Manager, automatic rotation
 
 Secrets Manager parameter store doesnt support auto rotation
@@ -126,12 +122,6 @@ Secure string parameter only apply for Parameter Store
 
 
 
-###### 14. read req >> write, auto scale -> aurora 
-
-aurora read performance 5x over RDS mysql, high availability A-Z deployment
-
-
-
 ###### 15. traffic inspection and traffic filtering for the production VPC on AWS -> AWS Network Firewall 
 
 Amazon GuardDuty for threat detection service
@@ -152,26 +142,6 @@ Keywords:
 QuickSight only support users and groups, not IAM. We use users and groups to view the QuickSight dashboard 
 
 
-
-###### 17. ec2 instance s3 access -> IAM role
-
-ec2 -> IAM roles
-
-IAM policy-> IAM user or group
-
-IAM group -> group together IAM users and policies  
-
-IAM user -> represent a person or service that interacts with AWS resources, not to grant access to resources.
-
-
-
-###### 18. durable, stateless, automatic processing -> SQS w s3 notification / SQS lambda
-
-in memory file, voilate stateless
-
-ec2 monitor voilate stateless
-
-eventbridge, not auto process
 
 
 
@@ -206,40 +176,6 @@ multi attach would afffect original
 
 
 
-###### 21. website 24 hour sale, handle high load on peak traffic -> dynamoDB, API gateway, lambda, s3 + cloudfront  (all infinitely scalable)
-
-API GW lambda dynamo all fully managed
-
-only s3 doesnt provide million of request capacity
-
-ec2 and ALB and RDS, would require more operational overhead
-
-EKS more operational overhead for container, RDS also overhead
-
-
-
-###### 22. resiliency, unpredictable pattern of access -> s3 intelligence tiering
-
-unpredictable pattern
-
-resilience requirement
-
--> 
-
-S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, and S3 Glacier Deep Archive redundantly store objects on multiple devices across a minimum of three Availability Zones in an AWS Region
-
-S3 one zone doenst meet resilience
-
-
-
-###### 23. s3 one month then not accessed -> s3 standard to glacier deep
-
-intelligence  tiering not designed for long term storage, also cost more
-
-s3 standard to s3 standard IA/s3 one zone IA, not lowest cost
-
-
-
 ###### 24. vertical scaling of ec2, graph investigation of last 2 month -> AWS Cost Explorer
 
 cost explorer -> 14 days hourly granularity, 12 months data
@@ -252,18 +188,6 @@ aws cost and usage report -> s3 -> quicksight, too much overhead
 
 
 
-###### 25. api GW + lambda + aurora, load data in db, need increase lambda quote, min config effort -> two lambda SQS
-
-ec2 JDBC doesnt improve perfomance
-
-dynamo accelerator for read not for write
-
-two lambda  + SNS for sending notification
-
-two lambda + SQS, integrate with SQS
-
-
-
 ###### 26. review s3 doesnt have unauthorized config change -> AWS config with appropriate rules
 
 key word: config change -> aws config 
@@ -271,12 +195,6 @@ key word: config change -> aws config
 aws trusted adviser for recommendations
 
 inspector for software vulnerabilities and network exposure
-
-
-
-###### 27. cloudwatch dashboard Product Manager access, no AWS account -> dashboard w email access, share link
-
-cloudwatch watchreadonly access would give log access and other access too
 
 
 
@@ -314,7 +232,7 @@ stop db still pays for storage, more than snapshot
 
 ###### 33. thousands of user, near real time solution, rm sensitive data before storing, low latency read -> firehouse / kinesis 
 
-firehouse doesnt support dynamo, currrently Amazon S3, Amazon Redshift, Amazon OpenSearch Service, Splunk, Datadog, NewRelic, Dynatrace, Sumologic, LogicMonitor, MongoDB, and HTTP End Point
+firehouse doesnt support dynamo
 
 kinesis is near real time
 
@@ -344,17 +262,7 @@ shield advanced for ddos
 
 
 
-###### 36. s3 two regoin KMS, least overhead -> KMS server side encryption, replication
-
-customer managed key
-
-
-
 ###### 37. ec2 instances, remote secure administer -> IAM role + AWS system manger session manger for SSH
-
-
-
-###### 38. s3 route53, reduce latency -> cloudfront
 
 
 
@@ -369,12 +277,6 @@ burstable performance instance: cpu usage
 
 
 ###### 40. 1TB alert, 14 days available for immediate, archive older -> kinesis data firehouse -> s3 + lifecycle to s3 glacier
-
-
-
-###### 41. saas to s3 -> appflow
-
-appflow: saas to s3
 
 
 
@@ -401,10 +303,6 @@ snowball transfer daily not long term
 ###### 44. protect s3 from deletion -> versioning / cross-region replication / MFA
 
 MFA (multi factor auth) when deletion
-
-
-
-###### 45. SNS + lambda, network could fail lambda -> SQS
 
 
 
@@ -981,21 +879,65 @@ IAM doesnt have authorization
 
 
 
+###### 184. Direct Connect, lambda run on on premise db -> config lambda to run on VPC w security group
 
 
 
+###### 185. ecs, s3 -> IAM role w taskRoleArn
 
 
 
+###### 194. ec2 auto fail over -> multi AZ + cluster
 
 
 
+###### 198. mongo -> documentDB
 
 
 
+###### 200. cognito, auth for API GW -> cognito user pool authorizer
 
 
 
+###### 217. DR for 30 min -> second region, aurora replica; route 53 active passive
+
+active passive: dont need to share load, on passover
+
+active active: share load
+
+
+
+###### 218. ACL allow 443 -> inbound from 0.0.0.0/0, outbound of TCP port 32768-65535 to 0.0.0.0/0
+
+stateless of NACL -> need inbound and outbound
+
+
+
+###### 219. ec2 M5 in memory compute -> R5 + CW metrics
+
+ec2 doesnt have Cloudwatch installed, need to install 
+
+
+
+###### 233. root user access -> strong password + multi factor auth
+
+root user access key should be avoided
+
+
+
+###### 241. multi AZ not the same as multi regional!
+
+
+
+###### 247. read replica -> allow long running txn to complete on source + auto backup
+
+binlog handled by rds
+
+passover not related to read replica
+
+
+
+###### 248. sercurity group rules -> use security group id as source or destination 
 
 
 
